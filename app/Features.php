@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Features extends Model
 {
@@ -14,4 +15,12 @@ class Features extends Model
     protected $fillable = [
         'name'
     ];
+
+    public function scopeTakeRandom($query, $size=1)
+    {
+        return $query->inRandomOrder()->take($size);
+    }
+
+
+
 }

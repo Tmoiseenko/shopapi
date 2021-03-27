@@ -15,8 +15,13 @@ class ProductsSeeder extends Seeder
             ->create()
             ->each(function (App\Product $product) {
                 $catId = App\Category::takeRandom()->first();
-                $product['category_id'] = $catId;
+                $featuresId = App\Features::takeRandom()->first();
+                $product['category_id'] = $catId->id;
                 $product->save();
+                factory(App\Value::class, rand(3, 5))->create([
+                    'product_id' => $product->id,
+                    'feature_id' => $featuresId,
+                ]);
             });
     }
 }

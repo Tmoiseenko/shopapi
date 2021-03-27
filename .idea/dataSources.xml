@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="MySQL - shopapi@localhost" uuid="b94aef59-c0e9-4813-bb75-06c0b6456224">
+    <data-source source="LOCAL" name="shopapi@localhost" uuid="60703698-907c-4895-a639-96f5e1da87b1">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
-      <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>
+      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
       <jdbc-url>jdbc:mysql://localhost:3306/shopapi</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
+      <driver-properties>
+        <property name="serverTimezone" value="Asia/Tashkent" />
+      </driver-properties>
     </data-source>
   </component>
 </project>

@@ -20,8 +20,10 @@ class Product extends Model
         return $this->belongsTo(Category::class);
     }
 
-    public function features()
+
+    public function featureValue()
     {
-        return $this->hasMany(Features::class);
+        return $this->hasMany(Value::class);
     }
+
 }
