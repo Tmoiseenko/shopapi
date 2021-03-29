@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ProductResource;
+use App\Http\Resources\ProductsResource;
 use App\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class ProductController extends Controller
 {
@@ -12,9 +15,30 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $products = Product::all();
+
+        if ($request->query()) {
+            $validator = Validator::make($request->all(), [
+                'category' => ['string', 'max:255'],
+                'price' => ['numeric'],
+                'feature' => ['string']
+            ]);
+            if ($validator->fails()) {
+                return $this->error('Incorrect values entered', 401, ['error' => $validator->errors()]);
+            }
+            if ($request->filled('category_name')) {
+                $products = $products->where('category.name', '=', $request->get('category_name'));
+            }
+            if ($request->filled('category_id')) {
+                $products = $products->where('category_id', '=', $request->get('category_id'));
+            }
+            if ($request->filled('price')) {
+                $products = $products->where('price', '=', $request->get('price'));
+            }
+        }
+        return new ProductsResource($products);
     }
 
     /**
@@ -46,7 +70,8 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        //
+        ProductResource::withoutWrapping();
+        return new ProductResource($product);
     }
 
     /**

@@ -10,7 +10,7 @@ $factory->define(Product::class, function (Faker $faker) {
     return [
         'name' => $name,
         'slug' => \Illuminate\Support\Str::slug($name, '-'),
-        'description' => $faker->paragraph,
+        'description' => $faker->realText(),
         'price' => $faker->numberBetween(500, 10000),
     ];
 });

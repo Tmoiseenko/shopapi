@@ -2,10 +2,9 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
-class Features extends Model
+class Features extends BaseModel
 {
     /**
      * The attributes that are mass assignable.

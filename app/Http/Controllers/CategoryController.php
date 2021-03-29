@@ -3,10 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Category;
+use App\Http\Resources\CategoriesResource;
+use App\Http\Resources\CategoryResource;
+use App\Traits\ApiResponser;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +18,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        return new CategoriesResource(Category::all());
     }
 
     /**
@@ -46,7 +50,8 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        //
+        CategoryResource::withoutWrapping();
+        return new CategoryResource($category);
     }
 
     /**

@@ -11,6 +11,11 @@ class OrderSeeder extends Seeder
      */
     public function run()
     {
-        //
+        foreach (\App\User::all() as $user) {
+            factory(\App\Order::class)->create([
+                'email' => $user->email,
+                'phone' => $user->phone,
+            ]);
+        }
     }
 }

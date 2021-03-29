@@ -11,6 +11,6 @@ class FeaturesSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\Features::class, rand(5, 10))->create();
+        factory(App\Features::class, 5)->create();
     }
 }
