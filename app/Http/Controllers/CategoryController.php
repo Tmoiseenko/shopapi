@@ -7,6 +7,7 @@ use App\Http\Resources\CategoriesResource;
 use App\Http\Resources\CategoryResource;
 use App\Traits\ApiResponser;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class CategoryController extends Controller
 {
@@ -39,7 +40,18 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'name' => ['required', 'string', 'max:255']
+        ]);
+
+        if ($validator->fails()) {
+            return $this->error('Incorrect values entered', 401, ['error' => $validator->errors()]);
+        }
+
+        $category = Category::firstOrCreate($validator->getData());
+
+        CategoryResource::withoutWrapping();
+        return new CategoryResource($category);
     }
 
     /**
@@ -74,7 +86,20 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'name' => ['required', 'string', 'max:255']
+        ]);
+
+        if ($validator->fails()) {
+            return $this->error('Incorrect values entered', 401, ['error' => $validator->errors()]);
+        }
+
+        $category = Category::find($category);
+        $category->update($validator->getData());
+        $category->save();
+
+        CategoryResource::withoutWrapping();
+        return new CategoryResource($category);
     }
 
     /**
@@ -85,6 +110,10 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+        $category = Category::find($category);
+        $category->delete();
+        return $this->success([
+            'messege' => 'Category was deleted'
+        ]);
     }
 }

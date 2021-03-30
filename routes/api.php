@@ -18,13 +18,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/auth/register', 'AuthController@register');
 Route::post('/auth/login', 'AuthController@login');
-
+Route::get('/product-by-slug/{slug}', 'ProductController@getBySlug');
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/auth/logout', 'AuthController@logout');
-    Route::get('/user', function(Request $request) {
-        dd(\App\Product::with('category')->paginate());
-    });
     Route::resource('categories', 'CategoryController');
     Route::resource('products', 'ProductController');
 });

@@ -107,4 +107,11 @@ class ProductController extends Controller
     {
         //
     }
+
+    public function getBySlug($slug)
+    {
+        $product = Product::where('slug', '=', $slug)->first();
+        ProductResource::withoutWrapping();
+        return new ProductResource($product);
+    }
 }

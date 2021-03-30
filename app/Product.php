@@ -13,10 +13,6 @@ class Product extends BaseModel
         'name', 'description', 'price', 'category_id'
     ];
 
-    public function getRouteKeyName()
-    {
-        return 'slug';
-    }
 
     public function category()
     {
