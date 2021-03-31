@@ -11,7 +11,6 @@ use App\Http\Controllers\Controller;
 
 class AuthController extends Controller
 {
-    use ApiResponser;
 
     public function register(Request $request)
     {

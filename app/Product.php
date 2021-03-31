@@ -10,7 +10,7 @@ class Product extends BaseModel
      * @var array
      */
     protected $fillable = [
-        'name', 'description', 'price', 'category_id'
+        'name', 'description', 'price', 'category_id', 'slug'
     ];
 
 

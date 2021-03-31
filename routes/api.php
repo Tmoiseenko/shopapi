@@ -19,9 +19,13 @@ use Illuminate\Support\Facades\Route;
 Route::post('/auth/register', 'AuthController@register');
 Route::post('/auth/login', 'AuthController@login');
 Route::get('/product-by-slug/{slug}', 'ProductController@getBySlug');
+Route::resource('/features', 'FeaturesController');
+Route::post('/add-to-cart', 'CartController@addToCart')->name('addToCart');
+Route::get('/get-cart', 'CartController@getCartItems')->name('getCart');
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/auth/logout', 'AuthController@logout');
-    Route::resource('categories', 'CategoryController');
-    Route::resource('products', 'ProductController');
+    Route::resource('/categories', 'CategoryController');
+    Route::resource('/products', 'ProductController');
+
 });

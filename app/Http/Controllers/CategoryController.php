@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\Validator;
 
 class CategoryController extends Controller
 {
-
     /**
      * Display a listing of the resource.
      *
@@ -94,8 +93,7 @@ class CategoryController extends Controller
             return $this->error('Incorrect values entered', 401, ['error' => $validator->errors()]);
         }
 
-        $category = Category::find($category);
-        $category->update($validator->getData());
+        $category->name = $request->name;
         $category->save();
 
         CategoryResource::withoutWrapping();
@@ -110,10 +108,7 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        $category = Category::find($category);
         $category->delete();
-        return $this->success([
-            'messege' => 'Category was deleted'
-        ]);
+        return $this->success([], 'Category was deleted');
     }
 }

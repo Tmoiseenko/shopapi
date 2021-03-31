@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Http\Resources\ProductResource;
 use App\Http\Resources\ProductsResource;
 use App\Product;
+use App\Traits\ApiResponser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class ProductController extends Controller
 {
@@ -94,7 +96,22 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'name' => ['required', 'string', 'max:255'],
+            'description' => ['required', 'string'],
+            'price' => ['required', 'numeric'],
+            'category_id' => ['required', 'numeric'],
+        ]);
+
+        if ($validator->fails()) {
+            return $this->error('Incorrect values entered', 401, ['error' => $validator->errors()]);
+        }
+        $fields = $request->all();
+        $fields['slug'] = Str::slug($request->name);
+        $product->update($fields);
+
+        ProductResource::withoutWrapping();
+        return new ProductResource($product);
     }
 
     /**
@@ -105,7 +122,8 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        //
+        $product->delete();
+        return $this->success([], 'Product was deleted');
     }
 
     public function getBySlug($slug)

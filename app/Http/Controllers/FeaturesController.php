@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Features;
-use App\Http\Resources\CategoryResource;
+use App\Http\Resources\FeatureResource;
+use App\Http\Resources\FeaturesResource;
+use App\Traits\ApiResponser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -16,7 +18,7 @@ class FeaturesController extends Controller
      */
     public function index()
     {
-        //
+        return new FeaturesResource(Features::all());
     }
 
     /**
@@ -45,10 +47,10 @@ class FeaturesController extends Controller
             return $this->error('Incorrect values entered', 401, ['error' => $validator->errors()]);
         }
 
-        $category = Features::firstOrCreate($validator->getData());
+        $features = Features::firstOrCreate($validator->getData());
 
         FeaturesResource::withoutWrapping();
-        return new FeaturesResource($category);
+        return new FeatureResource($features);
     }
 
     /**
@@ -57,10 +59,10 @@ class FeaturesController extends Controller
      * @param  \App\Features  $features
      * @return \Illuminate\Http\Response
      */
-    public function show(Features $features)
+    public function show(Features $feature)
     {
         FeaturesResource::withoutWrapping();
-        return new FeaturesResource($category);
+        return new FeatureResource($feature);
     }
 
     /**
@@ -81,7 +83,7 @@ class FeaturesController extends Controller
      * @param  \App\Features  $features
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Features $features)
+    public function update(Request $request, Features $feature)
     {
         $validator = Validator::make($request->all(), [
             'name' => ['required', 'string', 'max:255']
@@ -91,12 +93,11 @@ class FeaturesController extends Controller
             return $this->error('Incorrect values entered', 401, ['error' => $validator->errors()]);
         }
 
-        $features = Features::find($features);
-        $features->update($validator->getData());
-        $features->save();
+        $feature->name = $request->name;
+        $feature->save();
 
         FeaturesResource::withoutWrapping();
-        return new FeaturesResource($category);
+        return new FeatureResource($feature);
     }
 
     /**
@@ -105,12 +106,9 @@ class FeaturesController extends Controller
      * @param  \App\Features  $features
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Features $features)
+    public function destroy(Features $feature)
     {
-        $features = Features::find($features);
-        $features->delete();
-        return $this->success([
-            'messege' => 'Category was deleted'
-        ]);
+        $feature->delete();
+        return $this->success([], 'Feature was deleted');
     }
 }
