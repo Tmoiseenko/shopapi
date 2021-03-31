@@ -20,8 +20,10 @@ Route::post('/auth/register', 'AuthController@register');
 Route::post('/auth/login', 'AuthController@login');
 Route::get('/product-by-slug/{slug}', 'ProductController@getBySlug');
 Route::resource('/features', 'FeaturesController');
-Route::post('/add-to-cart', 'CartController@addToCart')->name('addToCart');
-Route::get('/get-cart', 'CartController@getCartItems')->name('getCart');
+Route::post('/add-to-cart', 'CartController@add')->name('addToCart');
+Route::get('/get-cart', 'CartController@get')->name('getCart');
+Route::post('/update-cart', 'CartController@update')->name('updateCart');
+Route::post('/remove-cart', 'CartController@remove')->name('removeCart');
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/auth/logout', 'AuthController@logout');
