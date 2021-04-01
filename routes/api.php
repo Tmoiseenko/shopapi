@@ -23,11 +23,12 @@ Route::resource('/features', 'FeaturesController');
 Route::post('/add-to-cart', 'CartController@add')->name('addToCart');
 Route::get('/get-cart', 'CartController@get')->name('getCart');
 Route::post('/update-cart', 'CartController@update')->name('updateCart');
-Route::post('/remove-cart', 'CartController@remove')->name('removeCart');
+Route::delete('/remove-cart', 'CartController@remove')->name('removeCart');
+Route::get('/clear-cart', 'CartController@clear')->name('clearCart');
+Route::resource('/orders', 'OrderController');
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/auth/logout', 'AuthController@logout');
     Route::resource('/categories', 'CategoryController');
     Route::resource('/products', 'ProductController');
-
 });
