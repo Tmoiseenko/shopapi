@@ -20,7 +20,7 @@ class CartController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'id' => ['required', 'numeric'],
-            'qty' => ['required', 'numeric']
+            'qty' => ['numeric']
         ]);
 
         if ($validator->fails()) {
@@ -34,7 +34,7 @@ class CartController extends Controller
         }
 
         $cart = new Cart($request);
-        $cart->add($product, $fields['qty']);
+        $cart->add($product, $fields['qty'] ?? 1);
 
         return $this->success([], 'Product added to cart');
 

@@ -15,6 +15,11 @@ class Features extends BaseModel
         'name'
     ];
 
+    public function value()
+    {
+        return $this->hasMany(Value::class);
+    }
+
     public function scopeTakeRandom($query, $size=1)
     {
         return $query->inRandomOrder()->take($size);

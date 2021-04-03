@@ -14,8 +14,8 @@ class Order extends BaseModel
         'email', 'phone', 'quantity', 'amount'
     ];
 
-    public function products()
+    public function items()
     {
-        return $this->hasMany(Product::class);
+        return $this->hasMany(OrderItem::class);
     }
 }

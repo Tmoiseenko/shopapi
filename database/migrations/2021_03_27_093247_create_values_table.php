@@ -15,11 +15,11 @@ class CreateValuesTable extends Migration
     {
         Schema::create('values', function (Blueprint $table) {
             $table->id();
-            $table->string('value');
-            $table->unsignedBigInteger('product_id');
-            $table->unsignedBigInteger('feature_id');
+            $table->string('name')->nullable();
+            $table->unsignedBigInteger('product_id')->nullable();
+            $table->unsignedBigInteger('features_id')->nullable();
             $table->foreign('product_id')->references('id')->on('products')->cascadeOnDelete();
-            $table->foreign('feature_id')->references('id')->on('features')->cascadeOnDelete();
+            $table->foreign('features_id')->references('id')->on('features')->cascadeOnDelete();
             $table->timestamps();
         });
     }

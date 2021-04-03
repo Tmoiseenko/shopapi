@@ -7,6 +7,6 @@ use Faker\Generator as Faker;
 
 $factory->define(Value::class, function (Faker $faker) {
     return [
-        'value' => $faker->numberBetween(10, 500)
+        'name' => $faker->numberBetween(10, 500)
     ];
 });

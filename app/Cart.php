@@ -19,13 +19,15 @@ class Cart
 
     private function getCartId(Request $request)
     {
-        if (!isset($_COOKIE['uniqueCartId'])) {
-            $uniqueCartId = Str::replaceFirst(
-                    'Bearer ', '', $request->header('Authorization')
-                ) ?? uniqid();
-            setcookie('uniqueCartId', $uniqueCartId);
+        if ($request->header('Authorization')) {
+            $uniqueCartId = Str::replaceFirst('Bearer ', '', $request->header('Authorization'));
         } else {
-            $uniqueCartId = $_COOKIE['uniqueCartId'];
+            if (!isset($_COOKIE['uniqueCartId'])) {
+                $uniqueCartId = uniqid();
+                setcookie('uniqueCartId', $uniqueCartId);
+            } else {
+                $uniqueCartId = $_COOKIE['uniqueCartId'];
+            }
         }
         return $uniqueCartId;
     }
@@ -69,14 +71,16 @@ class Cart
     public function clear()
     {
         $session = new Session();
-        $session->clear();
+        $session->remove('cart_' . $this->getCartId($this->request));
+        if (isset($_COOKIE['uniqueCartId'])) {
+            setcookie('uniqueCartId', '', time()-3600, '/api');
+        }
     }
 
     public function getItems()
     {
         $session = new Session();
         $cart = $session->get('cart_' . $this->getCartId($this->request));
-
         return $cart ?? [];
     }
 }

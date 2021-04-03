@@ -21,7 +21,7 @@ class ProductsSeeder extends Seeder
                 foreach ($features as $feature) {
                     factory(App\Value::class)->create([
                         'product_id' => $product->id,
-                        'feature_id' => $feature->id,
+                        'features_id' => $feature->id,
                     ]);
                 }
             });

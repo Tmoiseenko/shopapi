@@ -61,7 +61,23 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'name' => ['required', 'string', 'max:255'],
+            'description' => ['required', 'string'],
+            'price' => ['required', 'numeric'],
+            'category_id' => ['required', 'numeric'],
+        ]);
+
+        if ($validator->fails()) {
+            return $this->error('Incorrect values entered', 401, ['error' => $validator->errors()]);
+        }
+
+        $fields = $request->all();
+        $fields['slug'] = Str::slug($request->name);
+        $product = Product::Create($fields);
+
+        ProductResource::withoutWrapping();
+        return new ProductResource($product);
     }
 
     /**
